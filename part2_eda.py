@@ -1,8 +1,26 @@
+# import libraries
 import pandas as pd
 import matplotlib.pyplot as plt
 
 
-df_demo2023 = pd.read_sas("DEMO_L.xpt")
-df_supl2023 = pd.read_sas("DSQTOT_L.xpt")
-df_demo2020 = pd.read_sas("P_DEMO.xpt")
-df_supl2020 = pd.read_sas("P_DSQTOT.xpt")
+# global data files
+DEMO2023 = "DEMO_L.xpt"
+SUPL2023 = "DSQTOT_L.xpt"
+DEMO2020 = "P_DEMO.xpt"
+SUPL2020 = "P_DSQTOT.xpt"
+
+
+def load_xpt_data(file_path: str) -> pd.DataFrame:
+    """
+    Take in an xpt file and return a DataFrame.
+    """
+    return pd.read_sas(file_path)
+
+
+def data_dimension(data: pd.DataFrame) -> tuple:
+    """
+    Take in a DataFrame and return its dimensions.
+    """
+    return data.shape
+
+
