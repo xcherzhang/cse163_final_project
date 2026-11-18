@@ -10,9 +10,14 @@ DEMO2020 = "P_DEMO.xpt"
 SUPL2020 = "P_DSQTOT.xpt"
 
 
-# columns of interest
+# columns of interest by question types
 demo_columns = ["SEQN", "RIDAGEYR", "RIAGENDR", "RIDRETH3", "DMDEDUC2"]
 supl_columns = ["DSD010", "DSQTVC", "DSQTVD", "DSQTCALC", "DSQTMAGN"]
+
+
+# columns of interest by variable types
+categorical_columns = ["RIAGENDR", "RIDRETH3", "DMDEDUC2"]
+quantitative_columns = ["RIDAGEYR", "DSD010", "DSQTVC", "DSQTVD", "DSQTCALC", "DSQTMAGN"]
 
 
 def load_xpt_data(file_path: str) -> pd.DataFrame:
@@ -51,6 +56,27 @@ def missing_value_summary(df: pd.DataFrame) -> pd.DataFrame:
     missing_df.columns = ["Column", "Missing_Count"]
     missing_df["Missing_Percentage"] = (missing_df["Missing_Count"] / len(df)) * 100
     return missing_df
+
+
+def quantitative_variable_summary(df: pd.DataFrame, columns: list) -> pd.DataFrame:
+    """
+    Take in a DataFrame and a list of quantitative columns, and return a DataFrame with a seven-number summary
+    (mean, standard deviation, minimum, first quartile, median, third quartile, maximum).
+    """
+    summary_df = df[columns].describe().transpose()
+    summary_df = summary_df[["mean", "std", "min", "25%", "50%", "75%", "max"]]
+    summary_df.columns = ["Mean", "Std_Dev", "Min", "Q1", "Median", "Q3", "Max"]
+    return summary_df
+
+
+def categorical_variable_summary(df: pd.DataFrame, column: str) -> pd.DataFrame:
+    """
+    Take in a DataFrame and a categorical column, and return a DataFrame with unique responses
+    and their counts.
+    """
+    result = df[column].value_counts(dropna=False).reset_index()
+    result.columns = [column, "Count"]
+    return result
 
 
 def main():
@@ -93,6 +119,30 @@ def main():
     print("Missing value summary for filtered 2020 data:")
     print(missing_summary_2020)
     print()
+
+    # get quantitative variable summary for the filtered dataframes
+    quantitative_summary_2023 = quantitative_variable_summary(filtered_2023, quantitative_columns)
+    quantitative_summary_2020 = quantitative_variable_summary(filtered_2020, quantitative_columns)
+
+    print("Quantitative variable summary for filtered 2023 data:")
+    print(quantitative_summary_2023)
+    print()
+    print("Quantitative variable summary for filtered 2020 data:")
+    print(quantitative_summary_2020)
+    print()
+
+    # get categorical variable summary for the filtered dataframes
+    print("Categorical variable summary for filtered 2023 data:")
+    for column in categorical_columns:
+        summary = categorical_variable_summary(filtered_2023, column)
+        print(f"- Summary for {column}:")
+        print(summary)
+    print()
+    print("Categorical variable summary for filtered 2020 data:")
+    for column in categorical_columns:
+        summary = categorical_variable_summary(filtered_2020, column)
+        print(f"- Summary for {column}:")
+        print(summary)
 
 if __name__ == "__main__":
     main()
