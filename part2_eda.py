@@ -12,7 +12,7 @@ SUPL2020 = "P_DSQTOT.xpt"
 
 # columns of interest
 demo_columns = ["SEQN", "RIDAGEYR", "RIAGENDR", "RIDRETH3", "DMDEDUC2"]
-supl_columns = ["DSQTVC", "DSQTVD", "DSQTCALC", "DSQTMAGN"]
+supl_columns = ["DSD010", "DSQTVC", "DSQTVD", "DSQTCALC", "DSQTMAGN"]
 
 
 def load_xpt_data(file_path: str) -> pd.DataFrame:
