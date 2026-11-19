@@ -37,16 +37,7 @@ def test_data_dimensions() -> None:
     assert eda.filtered_2020["SEQN"].is_unique is True
 
 
-# small test dataframe
-test_df = pd.DataFrame({
-    "RIDAGEYR": [20, 30, 40, 50],
-    "DSQTVC": [100, 200, 300, 400],
-    "DSQTVD": [10, 20, 30, 40],
-    "RIAGENDR": [1, 2, 1, 2]
-})
-
-
-def test_missing_value_summary():
+def test_missing_value_summary() -> None:
     """
     Test missing value counts and percentages.
     """
@@ -66,7 +57,7 @@ def test_missing_value_summary():
     assert result.loc[1, "Missing_Percentage"] == 0
 
 
-def test_quantitative_variable_summary():
+def test_quantitative_variable_summary() -> None:
     """
     Test quantitative summary statistics.
     """
@@ -83,7 +74,7 @@ def test_quantitative_variable_summary():
     assert abs(result.loc["A", "Std_Dev"] - 1.290994) < 0.001
 
 
-def test_categorical_variable_summary():
+def test_categorical_variable_summary() -> None:
     """
     Test categorical response counts, including missing values.
     """
@@ -96,7 +87,7 @@ def test_categorical_variable_summary():
     assert counts[2.0] == 2
 
 
-def test_plot_age_distribution():
+def test_plot_age_distribution() -> None:
     """
     Test that age histogram uses the correct data and displays.
     """
@@ -109,7 +100,7 @@ def test_plot_age_distribution():
     assert os.path.exists("test_age.png")
 
 
-def test_plot_mean_nutrient_intake():
+def test_plot_mean_nutrient_intake() -> None:
     """
     Test that mean nutrient intake is calculated and plotted.
     """
@@ -126,7 +117,7 @@ def test_plot_mean_nutrient_intake():
     assert os.path.exists("test_nutrient.png")
 
 
-def main():
+def main() -> None:
     """
     Run all test functions.
     """
