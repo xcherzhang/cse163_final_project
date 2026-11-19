@@ -125,7 +125,7 @@ def plot_mean_nutrient_intake(df: pd.DataFrame,
     plt.close()
 
 
-def main():
+def main() -> None:
     # get dimensions of dataframes
     dim_2023 = merged_2023.shape
     dim_2020 = merged_2020.shape
