@@ -83,12 +83,13 @@ def categorical_variable_summary(df: pd.DataFrame,
     Take in a DataFrame and a categorical column,
     and return a DataFrame with unique responses and their counts.
     """
-    result = df[column].value_counts(dropna=False).reset_index()
+    result = df[column].value_counts(dropna=True).reset_index()
     result.columns = [column, "Count"]
     return result
 
 
-def plot_age_distribution(df: pd.DataFrame, title: str) -> None:
+def plot_age_distribution(df: pd.DataFrame, title: str,
+                          save_path: str = None) -> None:
     """
     Take in a DataFrame and a column name,
     and plot the distribution of that column.
@@ -97,11 +98,16 @@ def plot_age_distribution(df: pd.DataFrame, title: str) -> None:
     plt.title(title)
     plt.xlabel("Age")
     plt.ylabel("Frequency")
+    if save_path:
+        plt.savefig(save_path)
     plt.show()
+    plt.close()
 
 
 def plot_mean_nutrient_intake(df: pd.DataFrame,
-                              nutrient_columns: list, title: str) -> None:
+                              nutrient_columns: list,
+                              title: str,
+                              save_path: str = None) -> None:
     """
     Take in a DataFrame and a list of nutrient columns,
     and plot the mean intake of each nutrient.
@@ -113,7 +119,10 @@ def plot_mean_nutrient_intake(df: pd.DataFrame,
     plt.title(title)
     plt.xlabel("Nutrient")
     plt.ylabel("Mean Intake")
+    if save_path:
+        plt.savefig(save_path)
     plt.show()
+    plt.close()
 
 
 def main():
@@ -179,15 +188,19 @@ def main():
 
     # plot age distribution for the filtered dataframes
     plot_age_distribution(filtered_2023,
-                          "NHANES 2021-2023 Age Distribution")
+                          "NHANES 2021-2023 Age Distribution",
+                          "2023_age_distribution.png")
     plot_age_distribution(filtered_2020,
-                          "NHANES 2017-2020 Age Distribution")
+                          "NHANES 2017-2020 Age Distribution",
+                          "2020_age_distribution.png")
 
     # plot mean nutrient intake for the filtered dataframes
     plot_mean_nutrient_intake(filtered_2023, supl_columns[1:],
-                              "NHANES 2021-2023 Mean Nutrient Intake")
+                              "NHANES 2021-2023 Mean Nutrient Intake",
+                              "2023_mean_nutrient_intake.png")
     plot_mean_nutrient_intake(filtered_2020, supl_columns[1:],
-                              "NHANES 2017-2020 Mean Nutrient Intake")
+                              "NHANES 2017-2020 Mean Nutrient Intake",
+                              "2020_mean_nutrient_intake.png")
 
 
 if __name__ == "__main__":
